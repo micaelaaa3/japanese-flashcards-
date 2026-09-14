@@ -49,4 +49,146 @@
   }
 </style>
 <style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japanese Flashcards</title>
+  <style>
+    body {
+      background-color: #f0f2f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: sans-serif;
+    }
+
+    .card {
+      background-color: white;
+      width: 270px;
+      height: 170px;
+      border-radius: 15px;
+      border: 2px solid #333;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .category {
+      font-size: 14px;
+      color: #007bff;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .japanese {
+      font-size: 34px;
+      margin: 8px 0;
+    }
+
+    .reading {
+      font-size: 16px;
+      color: #777;
+    }
+
+    .english {
+      font-size: 18px;
+      color: #333;
+      font-weight: bold;
+      margin-top: 4px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 28px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Flashcard Display -->
+  <div class="card">
+    <div class="category" id="card-category">Greetings</div>
+    <div class="japanese" id="card-japanese">こんにちは</div>
+    <div class="reading" id="card-reading">Konnichiwa</div>
+    <div class="english" id="card-english">Hello</div>
+  </div>
+
+  <!-- Action Button -->
+  <button onclick="nextCard()">Next Card</button>
+
+  <script>
+    const flashcards = [
+      // Greetings
+      { category: "Greetings", japanese: "おはようございます", reading: "Ohayou gozaimasu", english: "Good morning" },
+      { category: "Greetings", japanese: "こんにちは", reading: "Konnichiwa", english: "Hello / Good afternoon" },
+      { category: "Greetings", japanese: "こんばんは", reading: "Konbanwa", english: "Good evening" },
+      { category: "Greetings", japanese: "おやすみなさい", reading: "Oyasuminasai", english: "Good night" },
+      { category: "Greetings", japanese: "さようなら", reading: "Sayounara", english: "Goodbye" },
+      { category: "Greetings", japanese: "やあ / おっす", reading: "Yaa / Ossu", english: "What's up" },
+
+      // Food & Drinks
+      { category: "Food & Drink", japanese: "ハンバーガー", reading: "Hanbaagaa", english: "Burger" },
+      { category: "Food & Drink", japanese: "フライドポテト", reading: "Furaido poteto", english: "Chips" },
+      { category: "Food & Drink", japanese: "おちゃ", reading: "Ocha", english: "Green tea" },
+      { category: "Food & Drink", japanese: "みず", reading: "Mizu", english: "Water" },
+      { category: "Food & Drink", japanese: "チョコレート", reading: "Chokoreeto", english: "Chocolate" },
+      { category: "Food & Drink", japanese: "キウイ", reading: "Kiui", english: "Kiwi" },
+      { category: "Food & Drink", japanese: "ライチ", reading: "Raichi", english: "Lychee" },
+      { category: "Food & Drink", japanese: "りんご", reading: "Ringo", english: "Apple" },
+      { category: "Food & Drink", japanese: "バナナ", reading: "Banana", english: "Banana" },
+      { category: "Food & Drink", japanese: "ぎゅうにゅう", reading: "Gyuunyuu", english: "Milk" },
+      { category: "Food & Drink", japanese: "シリアル", reading: "Shiriaru", english: "Cereal" },
+
+      // Days of the Week
+      { category: "Days", japanese: "げつようび", reading: "Getsuyoubi", english: "Monday" },
+      { category: "Days", japanese: "かようび", reading: "Kayoubi", english: "Tuesday" },
+      { category: "Days", japanese: "すいようび", reading: "Suiyoubi", english: "Wednesday" },
+      { category: "Days", japanese: "もくようび", reading: "Mokuyoubi", english: "Thursday" },
+      { category: "Days", japanese: "きんようび", reading: "Kinyoubi", english: "Friday" },
+      { category: "Days", japanese: "どようび", reading: "Doyoubi", english: "Saturday" },
+      { category: "Days", japanese: "にちようび", reading: "Nichiyoubi", english: "Sunday" },
+
+      // Months of the Year
+      { category: "Months", japanese: "いちがつ", reading: "Ichigatsu", english: "January" },
+      { category: "Months", japanese: "にがつ", reading: "Nigatsu", english: "February" },
+      { category: "Months", japanese: "さんがつ", reading: "Sangatsu", english: "March" },
+      { category: "Months", japanese: "しがつ", reading: "Shigatsu", english: "April" },
+      { category: "Months", japanese: "ごがつ", reading: "Gogatsu", english: "May" },
+      { category: "Months", japanese: "ろくがつ", reading: "Rokugatsu", english: "June" },
+      { category: "Months", japanese: "しちがつ", reading: "Shichigatsu", english: "July" },
+      { category: "Months", japanese: "はちがつ", reading: "Hachigatsu", english: "August" },
+      { category: "Months", japanese: "くがつ", reading: "Kugatsu", english: "September" },
+      { category: "Months", japanese: "じゅうがつ", reading: "Juugatsu", english: "October" },
+      { category: "Months", japanese: "じゅういちがつ", reading: "Juuichigatsu", english: "November" },
+      { category: "Months", japanese: "じゅうにがつ", reading: "Juunigatsu", english: "December" }
+    ];
+
+    let currentIndex = 0;
+
+    function nextCard() {
+      currentIndex = (currentIndex + 1) % flashcards.length;
+      document.getElementById("card-category").textContent = flashcards[currentIndex].category;
+      document.getElementById("card-japanese").textContent = flashcards[currentIndex].japanese;
+      document.getElementById("card-reading").textContent = flashcards[currentIndex].reading;
+      document.getElementById("card-english").textContent = flashcards[currentIndex].english;
+    }
+  </script>
+
+</body>
+</html>
 
